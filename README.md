@@ -1,2 +1,1 @@
-# Chaturbate-Filter-Extension
-initial
+Dynamically switch to filter Room notifications and tip messages.
