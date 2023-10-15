@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Chaturbate Chat Filter",
+  "version": "0.9",
+
+  "description": "toggle chat filter from notifications",
+  "icons": {
+    "48": "resource/48.ico"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://www.testbed.cb.dev/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
