@@ -13,5 +13,15 @@
       "matches": ["*://www.testbed.cb.dev/*"],
       "js": ["content.js"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "resource/tick-svgrepo-com.svg",
+        "resource/cross-svgrepo-com.svg",
+        "headerscript.js"
+      ],
+      "matches": ["*://www.testbed.cb.dev/*"]
+    }
   ]
 }
