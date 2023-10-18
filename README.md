@@ -1,4 +1,5 @@
 Adds buttons to dynamically switch filter for Room notifications and tip messages.
+
 ![preview](https://github.com/CBFilter/Chaturbate-Filter-Extension/assets/148009553/78efaa73-80c6-4bdb-ae10-573534b6dc5b)
 
 # Temporary Installation
