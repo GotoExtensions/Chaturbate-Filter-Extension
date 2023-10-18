@@ -12,7 +12,7 @@ function getScript(attachment) {
 }
 
 const url = window.location.href;
-const reg = /\S*testbed.cb.dev\/b\//;
+const reg = /\S*chaturbate.com\/b\//;
 let css1;
 const cross = browser.runtime.getURL("resource/cross-svgrepo-com.svg");
 const tickURL = browser.runtime.getURL("resource/tick-svgrepo-com.svg");

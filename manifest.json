@@ -10,7 +10,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://www.testbed.cb.dev/*"],
+      "matches": ["*://chaturbate.com/*"],
       "js": ["content.js"]
     }
   ],
@@ -21,7 +21,7 @@
         "resource/cross-svgrepo-com.svg",
         "headerscript.js"
       ],
-      "matches": ["*://www.testbed.cb.dev/*"]
+      "matches": ["*://chaturbate.com/*"]
     }
   ]
 }
