@@ -3,23 +3,30 @@
   "name": "Chaturbate Chat Filter",
   "version": "0.9",
 
-  "description": "toggle chat filter from notifications",
+  "description": "adds buttons to hide automatic messages like notifications or menus",
+
   "icons": {
-    "48": "resource/48.ico"
+    "48": "resource/48.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "cbextension@cbfiler.de"
+    }
   },
 
   "content_scripts": [
     {
       "matches": ["*://chaturbate.com/*"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
     {
       "resources": [
         "resource/tick-svgrepo-com.svg",
-        "resource/cross-svgrepo-com.svg",
-        "headerscript.js"
+        "resource/cross-svgrepo-com.svg"
       ],
       "matches": ["*://chaturbate.com/*"]
     }

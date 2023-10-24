@@ -1,24 +1,52 @@
-function getScript(attachment) {
-  fetch(browser.runtime.getURL("headerscript.js"))
-    .then((response) => response.text())
-    .then((scriptContent) => {
-      let scriptTag = document.createElement("script");
-      scriptTag.textContent = attachment + scriptContent;
-      document.head.appendChild(scriptTag);
-    })
-    .catch((error) => {
-      console.error("Failed to load script:", error);
-    });
+if (typeof browser === "undefined") {
+  var browser = chrome;
 }
+
+var chRoot = document.querySelector(".msg-list-fvm.message-list");
+
+let FilteredNotice = [];
+let FilteredTip = [];
+let noticeOn = false;
+let tipOn = false;
+
+function callback(mutationList, observer) {
+  let newNodes = mutationList[0].addedNodes;
+  console.log("executes");
+  for (const node of newNodes) {
+    let filtered;
+    let trgtArray;
+    if ((filtered = node.querySelector(".roomNotice"))) {
+      if (filtered.classList.contains("isTip")) {
+        FilteredTip.push(filtered);
+        if (tipOn) filtered.parentElement.style.display = "none";
+      } else {
+        let cnt = 0;
+        let notFound = true;
+        for (const elm of FilteredNotice) {
+          if (filtered.isEqualNode(elm)) {
+            FilteredNotice[cnt].parentElement.remove();
+            FilteredNotice[cnt] = filtered;
+            if (noticeOn) filtered.parentElement.style.display = "none";
+            notFound = false;
+            break;
+          }
+          cnt++;
+        }
+        if (notFound) FilteredNotice.push(filtered);
+        if (noticeOn) filtered.parentElement.style.display = "none";
+      }
+    }
+  }
+}
+
+const observer = new MutationObserver(callback);
+observer.observe(chRoot, { childList: true });
 
 const url = window.location.href;
 const reg = /\S*chaturbate.com\/b\//;
 let css1;
-const cross = browser.runtime.getURL("resource/cross-svgrepo-com.svg");
+const crossURL = browser.runtime.getURL("resource/cross-svgrepo-com.svg");
 const tickURL = browser.runtime.getURL("resource/tick-svgrepo-com.svg");
-let urls = `const tick = "${tickURL}";
-const cross = "${cross}";
- `;
 
 if (reg.test(url)) {
   const elm = document.querySelector(
@@ -26,7 +54,7 @@ if (reg.test(url)) {
   );
   elm.insertAdjacentHTML(
     "beforeend",
-    `<span class='spacer'></span><span class='addonbtn' onclick='toggleTips()'><img src='${cross}' id='extTipsSvg' alt='off' class="extBtnSvg"/>tips</span><span class='addonbtn' onclick='toggleNotice()'><img src='${cross}' id='extNoteSvg'  class="extBtnSvg" />room notice</span>`
+    `<span class='spacer'></span><span class='addonbtn' id='addonTipsBtn'><img src='${crossURL}' id='extTipsSvg' alt='off' class="extBtnSvg"/>tips</span><span class='addonbtn'  id='addonNoteBtn' ><img src='${crossURL}' id='extNoteSvg'  class="extBtnSvg" />room notice</span>`
   );
   css1 = `.spacer{
             margin-left:auto;
@@ -35,9 +63,37 @@ if (reg.test(url)) {
   const elm = document.querySelector("[ts='c']");
   elm.insertAdjacentHTML(
     "afterbegin",
-    `<span class='addonbtn' onclick='toggleTips()'><img src=${cross} id='extTipsSvg'  class="extBtnSvg" />tips</span><span class='addonbtn' onclick='toggleNotice()'><img src='${cross}' id='extNoteSvg' class="extBtnSvg" />room notice</span>`
+    `<span class='addonbtn' id='addonTipsBtn'><img src=${crossURL} id='extTipsSvg'  class="extBtnSvg" />tips</span><span class='addonbtn' id='addonNoteBtn'><img src='${crossURL}' id='extNoteSvg' class="extBtnSvg" />room notice</span>`
   );
   elm.style.width = "auto";
+}
+
+const tipimg = document.getElementById("extTipsSvg");
+const noteimg = document.getElementById("extNoteSvg");
+
+document.getElementById("addonTipsBtn").addEventListener("click", toggleTips);
+document.getElementById("addonNoteBtn").addEventListener("click", toggleNotice);
+
+function toggleTips() {
+  if (tipOn) {
+    for (const elm of FilteredTip) elm.parentElement.style.display = "block";
+    tipimg.src = crossURL;
+  } else {
+    for (const elm of FilteredTip) elm.parentElement.style.display = "none";
+    tipimg.src = tickURL;
+  }
+  tipOn = !tipOn;
+}
+
+function toggleNotice() {
+  if (noticeOn) {
+    for (const elm of FilteredNotice) elm.parentElement.style.display = "block";
+    noteimg.src = crossURL;
+  } else {
+    for (const elm of FilteredNotice) elm.parentElement.style.display = "none";
+    noteimg.src = tickURL;
+  }
+  noticeOn = !noticeOn;
 }
 
 const style = document.createElement("style");
@@ -66,5 +122,4 @@ style.innerHTML = `
     ${css1}  
     `;
 
-var addedNode = document.head.appendChild(style);
-getScript(urls);
+document.head.appendChild(style);
