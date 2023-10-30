@@ -9,34 +9,72 @@ let FilteredTip = [];
 let noticeOn = false;
 let tipOn = false;
 
-function callback(mutationList, observer) {
-  let newNodes = mutationList[0].addedNodes;
-  console.log("executes");
-  for (const node of newNodes) {
-    let filtered;
-    let trgtArray;
-    if ((filtered = node.querySelector(".roomNotice"))) {
-      if (filtered.classList.contains("isTip")) {
+function filterItems(node) {
+  let filtered;
+  if ((filtered = node.querySelector(".roomNotice"))) {
+    if (filtered.classList.contains("isTip")) {
+      if (checkTipNote(filtered)) {
         FilteredTip.push(filtered);
         if (tipOn) filtered.parentElement.style.display = "none";
-      } else {
-        let cnt = 0;
-        let notFound = true;
-        for (const elm of FilteredNotice) {
-          if (filtered.isEqualNode(elm)) {
-            FilteredNotice[cnt].parentElement.remove();
-            FilteredNotice[cnt] = filtered;
-            if (noticeOn) filtered.parentElement.style.display = "none";
-            notFound = false;
-            break;
-          }
-          cnt++;
-        }
-        if (notFound) FilteredNotice.push(filtered);
-        if (noticeOn) filtered.parentElement.style.display = "none";
       }
+    } else if (checkRoomEnter(filtered) && checkPrivate(filtered)) {
+      let cnt = 0;
+      let notFound = true;
+      for (const elm of FilteredNotice) {
+        if (filtered.isEqualNode(elm)) {
+          FilteredNotice[cnt].parentElement.remove();
+          FilteredNotice[cnt] = filtered;
+          if (noticeOn) filtered.parentElement.style.display = "none";
+          notFound = false;
+          break;
+        }
+        cnt++;
+      }
+      if (notFound) FilteredNotice.push(filtered);
+      if (noticeOn) filtered.parentElement.style.display = "none";
     }
   }
+}
+
+function callback(mutationList, observer) {
+  const newNodes = mutationList[0].addedNodes;
+  for (const node of newNodes) {
+    filterItems(node);
+  }
+}
+
+function initial() {
+  let msgs = document.body.querySelectorAll(".roomNotice");
+  console.log(msgs);
+  for (let ms of msgs) {
+    filterItems(ms.parentElement);
+  }
+}
+
+function checkTipNote(testnode) {
+  let result = testnode.firstChild.childElementCount <= 2;
+  return result;
+}
+
+function checkRoomEnter(testnode) {
+  let result = false;
+  for (let elm of testnode.firstChild.children) {
+    if (
+      elm.textContent == " has joined the room" ||
+      elm.textContent == " has left the room."
+    )
+      result = true;
+  }
+  return !result;
+}
+
+function checkPrivate(testnode) {
+  let result = false;
+  for (let elm of testnode.firstChild.children) {
+    if (elm.textContent.includes(" wants to start a private show."))
+      result = true;
+  }
+  return !result;
 }
 
 const observer = new MutationObserver(callback);
