@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Extension Options</title>
+    <link rel="stylesheet" type="text/css" href="options.css">
+    <script src="popup.js"></script>
+</head>
+
+<body>
+    <!--     <div class="option">
+        <label for="notifications">Notifications:</label>
+        <input type="checkbox" id="notifications">
+    </div> -->
+    <div class="option withNote">
+        <label for="filter-tips">Filter Tips Less Than:</label>
+        <input type="number" id="filter-tips" max="999">
+    </div>
+    <div class="note">(0 for no filter)</div>
+    <div class="option">
+        <label for="tip-note-filter">Also filter with tip note</label>
+        <input type="checkbox" id="tip-note-filter">
+    </div>
+    <div class="option">
+        <label for="room-enter">Room Enter:</label>
+        <input type="checkbox" id="room-enter">
+    </div>
+    <div class="option">
+        <label for="room-leave">Room Leave:</label>
+        <input type="checkbox" id="room-leave">
+    </div>
+    <div class="save-container">
+
+        <span id="saveMessage" style="display: none; opacity: 1;">Saved!</span>
+        <button id="saveButton">Save</button>
+    </div>
+
+</body>
+
+</html>

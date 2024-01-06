@@ -1,0 +1,73 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 15px;
+  min-width: 14em;
+  min-height: 9em;
+}
+
+.option {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option label {
+  text-align: left;
+  user-select: none;
+}
+
+.option input {
+  margin-left: 10px;
+}
+
+.withNote {
+  margin-bottom: 0.01em;
+}
+
+.note {
+  font-size: 0.8em;
+  color: #6a6d71;
+  margin-top: 0.01em;
+  text-align: right;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+#filter-tips {
+  width: 1.65em;
+  text-align: right;
+}
+
+#saveButton {
+  background-color: #f0f4f8;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  float: right;
+  margin: 10px 0;
+}
+
+#saveButton:hover {
+  background-color: #e1e5ea;
+}
+
+.save-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+#saveMessage {
+  transition: opacity 2s ease-out;
+  color: #687f6f;
+}
