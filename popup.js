@@ -9,16 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  browser.storage.local.get().then(
-    (items) => {
-      //      document.getElementById("notifications").checked = items.notifications;
-      document.getElementById("room-enter").checked = items.roomEnter;
-      document.getElementById("room-leave").checked = items.roomLeave;
-      document.getElementById("filter-tips").value = items.filterTips;
-      document.getElementById("tip-note-filter").checked = items.tipNoteFilter;
-    },
-    () => console.log("storage failure in options")
-  );
+  browser.storage.local.get((items) => {
+    //      document.getElementById("notifications").checked = items.notifications;
+    document.getElementById("room-enter").checked = items.roomEnter;
+    document.getElementById("room-leave").checked = items.roomLeave;
+    document.getElementById("filter-tips").value = items.filterTips;
+    document.getElementById("tip-note-filter").checked = items.tipNoteFilter;
+  });
 
   document.getElementById("saveButton").addEventListener("click", function () {
     const options = {

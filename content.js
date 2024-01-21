@@ -3,7 +3,6 @@ if (typeof browser === "undefined") {
 }
 
 let defaultSettings = {
-  notifications: true,
   roomEnter: false,
   roomLeave: false,
   filterTips: 0,
@@ -25,8 +24,6 @@ function checkStoredSettings(storedSettings) {
   }
   initExtension();
 }
-
-const getStoredSettings = browser.storage.local.get();
 
 var chRoot = document.querySelector(".msg-list-fvm.message-list");
 
@@ -202,7 +199,7 @@ function toggleFilter() {
 function changedSettings() {
   FilteredNotice = [];
   FilteredTip = [];
-  browser.storage.local.get().then((newSettings) => {
+  browser.storage.local.get((newSettings) => {
     settings = newSettings;
     InitialFilter();
   });
@@ -242,7 +239,6 @@ function callback(mutationList) {
   for (const mutation of mutationList) {
     const newNodes = mutation.addedNodes;
     for (const node of newNodes) {
-      console.log(node);
       filterItems(node);
     }
   }
@@ -254,9 +250,7 @@ browser.runtime.onMessage.addListener(function (message) {
   }
 });
 
-getStoredSettings.then(checkStoredSettings, (errCode) =>
-  console.log("storage failure: " + errCode)
-);
+browser.storage.local.get(checkStoredSettings);
 
 function InitialFilter() {
   if (chRoot.childElementCount > 4) {

@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Chaturbate Chat Filter",
-  "version": "0.98",
+  "version": "0.9",
 
-  "description": "Removes notifications like tip menus in the chat, options are available through the extension button in the browser bar",
+  "description": "adds buttons to hide automatic messages like notifications or menus",
 
   "icons": {
     "48": "resource/48.png"
