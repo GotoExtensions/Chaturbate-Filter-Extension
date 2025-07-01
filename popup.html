@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Extension Options</title>
+    <link rel="stylesheet" type="text/css" href="options.css">
+    <script src="popup.js"></script>
+</head>
+
+
+<body>
+    <div class="container">
+        <h2>Filter Options</h2>
+
+        <div class="option-group">
+            <div class="option">
+                <label for="filter-tips">Filter tips up to:</label>
+                <div>
+                    <input type="number" id="filter-tips" min="0" max="999">
+                    <span class="unit">tokens</span>
+                </div>
+            </div>
+
+            <p class="note">(0 for no filter)</p>
+        </div>
+
+        <div class="option">
+            <label for="fade-tips">Fade out filtered tips</label>
+            <input type="checkbox" id="fade-tips">
+        </div>
+
+        <div class="option">
+            <label for="tip-note-filter">Never Filter Tips With Notes</label>
+            <input type="checkbox" id="tip-note-filter">
+        </div>
+        <div class="option">
+            <label for="room-enter">Hide "User has entered" notifications</label>
+            <input type="checkbox" id="room-enter">
+        </div>
+        <div class="option">
+            <label for="room-leave">Hide "User has left" notifications</label>
+            <input type="checkbox" id="room-leave">
+        </div>
+
+        <div class="save-container">
+            <span id="saveMessage">Saved!</span>
+            <button id="saveButton">Save</button>
+        </div>
+    </div>
+</body>
+
+
+</html>

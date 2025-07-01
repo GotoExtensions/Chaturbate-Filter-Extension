@@ -1,0 +1,140 @@
+/* General Styles */
+body {
+	background-color: #2a2a2e;
+	color: #f0f0f0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	margin: 0;
+	min-width: 20em;
+}
+
+.container {
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px; /* Creates consistent space between all items */
+}
+
+h2 {
+	margin: 0 0 5px 0;
+	font-size: 1.2em;
+	text-align: left;
+	color: #6475a5;
+}
+
+/* Option Layout */
+.option {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+}
+
+.option label {
+	user-select: none;
+	font-size: 0.9em;
+}
+
+/* Group for Tip Filter + Note */
+.option-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.note {
+	font-size: 0.8em;
+	color: #8c8c8c;
+	margin: -5px 0 0 0;
+	text-align: right;
+}
+
+/* Form Element Styling */
+input[type="number"] {
+	background-color: #3a3a40;
+	color: #f0f0f0;
+	border: 1px solid #555;
+	border-radius: 4px;
+	padding: 5px;
+	width: 3.5em;
+	text-align: right;
+	-moz-appearance: textfield; /* Firefox */
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"]:focus {
+	outline: 1px solid #6c9ff8;
+}
+
+/* Custom Checkbox Styling */
+input[type="checkbox"] {
+	appearance: none;
+	-webkit-appearance: none;
+	position: relative;
+	width: 36px;
+	height: 20px;
+	background-color: #4a4a50;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+input[type="checkbox"]::before {
+	content: "";
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: #ccc;
+	top: 2px;
+	left: 2px;
+	transition: transform 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+	background-color: #6c9ff8;
+}
+
+input[type="checkbox"]:checked::before {
+	transform: translateX(16px);
+	background-color: #fff;
+}
+
+/* Save Button and Message */
+.save-container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 15px;
+	margin-top: 10px;
+}
+
+#saveButton {
+	/* ... (button styles) ... */
+}
+
+/* REMOVE the old #saveMessage rule and REPLACE it with this: */
+#saveMessage {
+	color: #79b48a;
+	opacity: 0; /* Start hidden */
+}
+
+/* This class will trigger the animation */
+#saveMessage.animate {
+	animation: fadeInOut 2s ease-out forwards;
+}
+
+/* ADD this animation definition at the end of the file */
+@keyframes fadeInOut {
+	/* Start instantly visible and hold for 80% of the duration */
+	0%,
+	20% {
+		opacity: 1;
+	}
+	/* Fade out over the last 20% of the duration */
+	100% {
+		opacity: 0;
+	}
+}
