@@ -84,7 +84,7 @@ function filterItems(node) {
 
 function checkTipAmount(testnode) {
 	let result = true;
-	const match = parseInt(testnode.textContent.match(/\S*\stipped\s(\d*)\s\S*/i));
+	const match = testnode.textContent.match(/\S*\stipped\s(\d*)\s\S*/i);
 	const tipAmount = parseInt(match[1]);
 	if (tipAmount > settings.filterTips) result = false;
 	return result;
@@ -92,8 +92,8 @@ function checkTipAmount(testnode) {
 
 function checkTipNote(testnode) {
 	const regTest = /\S*\stipped\s\d*\stoken\S?\s\S*/i;
-	if (settings.tipNoteFilter && testnode.textContent.test(regTest)) return true;
-	else return false;
+	if (settings.tipNoteFilter && regTest.test(testnode.textContent)) return false;
+	else return true;
 }
 
 const userClassList = [".defaultUser, .hasTokens, .tippedRecently, .tippedRecently, .tippedTonsRecently, .tippedALotRecently, .inFanclub, .mod"];
@@ -112,7 +112,7 @@ function checkRoomLeave(testnode) {
 function checkPrivate(testnode) {
 	let regTest = /wants\sto\sstart\sa\sprivate\sshow/;
 	let regCancel = /^Private\sshow\srequest\shas\sbeen\scancelled.$/i;
-	if ((regTest.test(testnode) && testnode.querySelector("a")) || regCancel.test(testnode)) return false;
+	if ((regTest.test(testnode.textContent) && testnode.querySelector("a")) || regCancel.test(testnode.textContent)) return false;
 	else return false;
 }
 
