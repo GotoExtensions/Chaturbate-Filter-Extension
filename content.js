@@ -60,7 +60,7 @@ function filterItems(node) {
 							},
 							{ once: true }
 						);
-					}
+					} else parentElm.style.display = "none";
 				}
 			}
 		} else if (!checkRoomEnter(filtered) && !checkRoomLeave(filtered) && !checkPrivate(filtered)) {
@@ -84,60 +84,36 @@ function filterItems(node) {
 
 function checkTipAmount(testnode) {
 	let result = true;
-	const str = testnode.parentElement.querySelector(".isTip > div > div > div> span").textContent;
-	const tipAmount = parseInt(str.match(/\b\d+\b/)[0]);
+	const match = parseInt(testnode.textContent.match(/\S*\stipped\s(\d*)\s\S*/i));
+	const tipAmount = parseInt(match[1]);
 	if (tipAmount > settings.filterTips) result = false;
 	return result;
 }
 
 function checkTipNote(testnode) {
-	if (settings.tipNoteFilter == false && testnode.firstChild.childElementCount > 2) {
-		return false;
-	} else return true;
+	const regTest = /\S*\stipped\s\d*\stoken\S?\s\S*/i;
+	if (settings.tipNoteFilter && testnode.textContent.test(regTest)) return true;
+	else return false;
 }
 
-const userClassList = ["defaultUser", "hasTokens", "tippedRecently", "tippedRecently", "tippedTonsRecently", "tippedALotRecently", "inFanclub", "mod"];
-
-function containsUserclass(checkNode) {
-	for (const userClass of userClassList) {
-		if (checkNode.classList.contains(userClass)) return true;
-	}
-}
+const userClassList = [".defaultUser, .hasTokens, .tippedRecently, .tippedRecently, .tippedTonsRecently, .tippedALotRecently, .inFanclub, .mod"];
 
 //check if is Room Enter message
 function checkRoomEnter(testnode) {
-	if (
-		settings.roomEnter == false &&
-		testnode.firstChild &&
-		testnode.firstChild.childElementCount == 4 &&
-		testnode.firstChild.children[0].tagName === "SPAN" &&
-		testnode.firstChild.children[1].tagName === "DIV" &&
-		testnode.firstChild.children[2].tagName === "SPAN" &&
-		testnode.firstChild.children[3].tagName === "SPAN"
-	) {
-		if (containsUserclass(testnode.firstChild.children[1])) return true;
-	} else return false;
+	if (settings.roomEnter == false && testnode.textContent.match(/user\s\S*\shas\sjoined\sthe\sroom/i) && testnode.querySelector(userClassList)) return true;
+	else return false;
 }
 
 function checkRoomLeave(testnode) {
-	if (
-		settings.roomLeave == false &&
-		testnode.firstChild &&
-		testnode.firstChild.childElementCount == 3 &&
-		testnode.firstChild.children[0].tagName === "SPAN" &&
-		testnode.firstChild.children[1].tagName === "DIV" &&
-		testnode.firstChild.children[2].tagName === "SPAN"
-	) {
-		if (containsUserclass(testnode.firstChild.children[1])) return true;
-	} else return false;
+	if (settings.roomLeave == false && testnode.textContent.match(/user\s\S*\shas\sleft\sthe\sroom/i) && testnode.querySelector(userClassList)) return true;
+	else return false;
 }
 
 function checkPrivate(testnode) {
-	let result = false;
-	for (let elm of testnode.firstChild.children) {
-		if (elm.textContent.includes(" wants to start a private show.")) result = true;
-	}
-	return result;
+	let regTest = /wants\sto\sstart\sa\sprivate\sshow/;
+	let regCancel = /^Private\sshow\srequest\shas\sbeen\scancelled.$/i;
+	if ((regTest.test(testnode) && testnode.querySelector("a")) || regCancel.test(testnode)) return false;
+	else return false;
 }
 
 const url = window.location.href;
@@ -231,13 +207,13 @@ style.innerHTML = `
       filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg);
     }
 
-        @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
+    @keyframes fadeOut {
+        0%,30% { opacity: 1; }
+        100% { opacity: 0; }
     }
 
     .tip-fade-out {
-        animation: fadeOut 1.5s ease-out forwards;
+        animation: fadeOut 2.5s ease-out forwards;
     }
 
   
